@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員教育制度に関する調査レポート</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header {
+            background-color: #00509e; /* 濃い青 */
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: #003366 3px solid;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            margin-top: 10px;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        section {
+            padding: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #00509e; /* 濃い青 */
+            border-bottom: 2px solid #00509e;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #007bff; /* 明るい青 */
+            margin-top: 30px;
+        }
+        .answer p, .answer ul {
+            background-color: #eef7ff; /* 薄い青 */
+            padding: 15px;
+            border-left: 5px solid #007bff; /* 明るい青 */
+            margin-bottom: 15px;
+        }
+        .answer ul {
+            list-style-position: inside;
+        }
+        .source {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        /* グラフ共通スタイル */
+        .chart-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .chart-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        /* 縦棒グラフ */
+        .bar-chart-vertical {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 250px; /* グラフの高さ */
+            border-left: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            padding-top: 20px; /* 値表示用スペース */
+        }
+        .bar-chart-vertical .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 5px;
+            flex: 1;
+            max-width: 100px;
+        }
+        .bar-chart-vertical .bar {
+            background-color: #4CAF50; /* 緑 */
+            width: 70%; /* 棒の幅 */
+            text-align: center;
+            color: white;
+            font-size: 0.8em;
+            position: relative;
+            box-sizing: border-box;
+            padding-top: 5px; /* バー内部のテキストのため */
+        }
+        .bar-chart-vertical .bar .value {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9em;
+            color: #333;
+            font-weight: bold;
+        }
+        .bar-chart-vertical .bar .label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            color: #333;
+            width: 100px; /* ラベル幅調整 */
+            text-align: center;
+            white-space: normal; /* ラベル改行許可 */
+        }
+        .bar-chart-vertical .bar.blue { background-color: #007bff; } /* 青 */
+        .bar-chart-vertical .bar.orange { background-color: #ff9800; } /* オレンジ */
+        .bar-chart-vertical .bar.red { background-color: #f44336; } /* 赤 */
+        .bar-chart-vertical .bar.purple { background-color: #9c27b0; } /* 紫 */
+        .bar-chart-vertical .bar.teal { background-color: #009688; } /* ティール */
+        .bar-chart-vertical .bar.lime { background-color: #cddc39; } /* ライム */
+        .bar-chart-vertical .bar.pink { background-color: #e91e63; } /* ピンク */
+
+
+        /* 横棒グラフ */
+        .bar-chart-horizontal .bar-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .bar-chart-horizontal .label {
+            width: 40%; /* ラベルの幅 */
+            font-size: 0.9em;
+            padding-right: 10px;
+            text-align: right;
+            white-space: normal;
+        }
+        .bar-chart-horizontal .bar-wrapper {
+            width: 60%; /* バー部分の幅 */
+            background-color: #eee;
+            border-radius: 3px;
+        }
+        .bar-chart-horizontal .bar {
+            height: 25px;
+            line-height: 25px;
+            color: white;
+            text-align: right;
+            padding-right: 8px;
+            font-size: 0.9em;
+            font-weight: bold;
+            border-radius: 3px;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        /* 二重棒グラフ (縦) */
+        .dual-bar-chart-vertical {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 250px;
+            border-left: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .dual-bar-chart-vertical .bar-pair-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .dual-bar-chart-vertical .bar-pair {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 100%;
+        }
+        .dual-bar-chart-vertical .bar {
+            width: 35px; /* 個々の棒の幅 */
+            margin: 0 3px;
+            text-align: center;
+            color: white;
+            font-size: 0.8em;
+            position: relative;
+            box-sizing: border-box;
+            padding-top: 5px;
+        }
+        .dual-bar-chart-vertical .bar .value {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9em;
+            color: #333;
+            font-weight: bold;
+        }
+        .dual-bar-chart-vertical .group-label {
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: #333;
+            text-align: center;
+            width: 100px;
+        }
+
+        /* リストスタイル */
+        .styled-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .styled-list li {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        .styled-list li::before {
+            content: "✓"; /* チェックマーク */
+            color: #28a745; /* 緑 */
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .icon-list li::before {
+            content: "💡"; /* 電球アイコンなど適宜変更 */
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+            nav ul li {
+                display: block;
+                margin-bottom: 10px;
+            }
+            .bar-chart-vertical {
+                height: 200px;
+            }
+            .bar-chart-vertical .bar .label,
+            .dual-bar-chart-vertical .group-label {
+                font-size: 0.7em;
+                width: 70px;
+            }
+            .bar-chart-horizontal .label {
+                width: 50%;
+                font-size: 0.8em;
+            }
+            .bar-chart-horizontal .bar-wrapper {
+                width: 50%;
+            }
+            .dual-bar-chart-vertical .bar {
+                width: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>従業員教育制度に関する調査レポート</h1>
+        <nav>
+            <ul>
+                <li><a href="#q1">導入制度</a></li>
+                <li><a href="#q2">利用状況</a></li>
+                <li><a href="#q3">不足分野</a></li>
+                <li><a href="#q4">従業員の声</a></li>
+                <li><a href="#q5">制度の効果</a></li>
+                <li><a href="#q6">金融教育の必要性</a></li>
+                <li><a href="#q7">金融教育の障壁</a></li>
+                <li><a href="#q8">金融教育の形式</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <section id="intro">
+            <h2>はじめに</h2>
+            <p>このレポートは、現在の従業員教育制度の導入状況、利用実態、課題、そして将来に向けた展望について、各種調査データを基にまとめたものです。グラフを用いて視覚的に分かりやすく解説します。</p>
+        </section>
+
+        <section id="q1">
+            <h2>Q1: どのような従業員教育制度を導入していますか？</h2>
+            <div class="answer">
+                <p>主な導入制度と事業所における実施率は以下の通りです。</p>
+                <ul>
+                    <li>計画的なOJT（On-the-Job Training）: 正社員に対して60.6%</li>
+                    <li>Off-JT（Off-the-Job Training）: 外部研修等の費用を支出している企業は54.6%</li>
+                    <li>自己啓発支援: 費用を支出している企業は54.6%</li>
+                    <li>キャリアコンサルティング: 正社員に対して41.6%</li>
+                    <li>教育訓練休暇制度: 導入企業は8.0%</li>
+                    <li>教育訓練短時間勤務制度: 導入企業は7.1%</li>
+                    <li>教育訓練所定外労働時間免除制度: 導入企業は6.3%</li>
+                </ul>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">導入教育制度の種類別 実施事業所割合</div>
+                <div class="bar-chart-vertical">
+                    <div class="bar-group">
+                        <div class="bar lime" style="height: 60.6%;"><span class="value">60.6%</span></div>
+                        <div class="label">計画的OJT</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar teal" style="height: 54.6%;"><span class="value">54.6%</span></div>
+                        <div class="label">Off-JT費用支出</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar purple" style="height: 54.6%;"><span class="value">54.6%</span></div>
+                        <div class="label">自己啓発費用支出</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar blue" style="height: 41.6%;"><span class="value">41.6%</span></div>
+                        <div class="label">キャリアコンサルティング</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar orange" style="height: 8.0%;"><span class="value">8.0%</span></div>
+                        <div class="label">教育訓練休暇制度</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar pink" style="height: 7.1%;"><span class="value">7.1%</span></div>
+                        <div class="label">教育訓練短時間勤務制度</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar red" style="height: 6.3%;"><span class="value">6.3%</span></div>
+                        <div class="label">所定外労働時間免除</div>
+                    </div>
+                </div>
+            </div>
+            <p class="source">出典: 厚生労働省「令和5年度能力開発基本調査」、東京商工会議所の調査（2022年）、中小企業金融機関の調査</p>
+        </section>
+
+        <section id="q2">
+            <h2>Q2: 導入されている教育制度のうち、従業員が特によく利用しているのはどれですか？</h2>
+            <div class="answer">
+                <p>利用状況・実施率が高いものは以下の通りです。</p>
+                <ul>
+                    <li><strong>計画的なOJT</strong>: 正社員に対して60.6%の事業所が実施、中小企業の約75.6%が日常業務の中でOJTを実施</li>
+                    <li><strong>Off-JT</strong>: 社内研修の実施率は約61%、外部講習の参加支援は約48%、労働者全体の受講率は34.3%</li>
+                    <li><strong>自己啓発</strong>: 労働者個人の実施率は34.4%（正社員では44.1%）</li>
+                    <li><strong>資格取得支援</strong>: 業務関連の資格取得奨励を行う企業は5～6割程度</li>
+                </ul>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">主要教育制度の利用・実施状況</div>
+                <div class="bar-chart-vertical">
+                    <div class="bar-group">
+                        <div class="bar lime" style="height: 75.6%;"><span class="value">約75.6%</span></div>
+                        <div class="label">OJT (中小企業)</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar teal" style="height: 61%;"><span class="value">約61%</span></div>
+                        <div class="label">Off-JT (社内研修)</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar purple" style="height: 44.1%;"><span class="value">44.1%</span></div>
+                        <div class="label">自己啓発 (正社員)</div>
+                    </div>
+                     <div class="bar-group">
+                        <div class="bar blue" style="height: 55%;"><span class="value">5-6割</span></div> <!-- 55%を代表値とする -->
+                        <div class="label">資格取得支援</div>
+                    </div>
+                </div>
+                 <p style="text-align:center; font-size:0.9em; margin-top:10px;">※OJTは中小企業、Off-JTは社内研修実施率、自己啓発は正社員の実施率、資格取得支援は奨励企業割合を示しています。</p>
+            </div>
+            <p class="source">出典: 厚生労働省「令和5年度能力開発基本調査」、東京商工会議所の調査（2022年）、中小企業金融機関の調査</p>
+        </section>
+
+        <section id="q3">
+            <h2>Q3: 現在の教育制度で「不足している」と感じる分野はありますか？</h2>
+            <div class="answer">
+                <p>企業や従業員が不足を感じている主な分野は以下の通りです。</p>
+                <ul>
+                    <li>将来に備えたスキル習得（DXや新技術対応など）</li>
+                    <li>IT・デジタル分野の研修: ITスキル向上支援を実施している企業は情報通信業でさえ半数未満</li>
+                    <li>次世代の管理職・リーダー人材の育成: 企業の67.8%が「リーダー人材」の不足を実感</li>
+                    <li>金融リテラシー教育: 約80%の中小企業経営者が必要性を感じているが、実施企業は31%にとどまる</li>
+                    <li>正社員以外の従業員に対する教育機会: 正社員と比較して実施率や利用率が大幅に低い</li>
+                </ul>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">不足を感じる分野に関するデータ</div>
+                <div class="dual-bar-chart-vertical" style="margin-bottom: 30px;">
+                    <div class="bar-pair-group">
+                        <div class="bar-pair">
+                            <div class="bar blue" style="height: 80%;"><span class="value">約80%</span></div>
+                            <div class="bar orange" style="height: 31%;"><span class="value">31%</span></div>
+                        </div>
+                        <div class="group-label">金融リテラシー教育 (青: 必要性認識, オレンジ: 実施率)</div>
+                    </div>
+                </div>
+                <div class="bar-chart-horizontal">
+                     <div class="bar-item">
+                        <div class="label">リーダー人材不足を実感する企業:</div>
+                        <div class="bar-wrapper">
+                            <div class="bar red" style="width: 67.8%;">67.8%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="source">出典: 経済産業省の中小企業白書、中小企業経営者・人事担当者向け調査</p>
+        </section>
+
+        <section id="q4">
+            <h2>Q4: 従業員から「こういった教育が欲しい」という声が上がることはありますか？</h2>
+            <div class="answer">
+                <p>従業員からは以下のような教育・支援に関する要望が見られます。</p>
+                <ul>
+                    <li>専門知識の深化に関する要望</li>
+                    <li>キャリアアップの機会や支援: 正社員の41.6%がキャリアコンサルティングの仕組みが導入されている事業所で勤務</li>
+                    <li>金融リテラシー教育・資産形成に関する知識: 特にZ世代の若年層が重視する傾向あり</li>
+                    <li>自己啓発（自主的な学習）の支援や機会: 労働者個人の約34.4%（正社員では44.1%）が業務外で自己啓発を実施</li>
+                </ul>
+            </div>
+             <div class="chart-container">
+                <div class="chart-title">従業員の要望に関連するデータ</div>
+                <div class="bar-chart-vertical">
+                    <div class="bar-group">
+                        <div class="bar blue" style="height: 41.6%;"><span class="value">41.6%</span></div>
+                        <div class="label">キャリアコンサルティング導入事業所で勤務 (正社員)</div>
+                    </div>
+                    <div class="bar-group">
+                        <div class="bar purple" style="height: 44.1%;"><span class="value">44.1%</span></div>
+                        <div class="label">自己啓発実施 (正社員)</div>
+                    </div>
+                     <div class="bar-group">
+                        <div class="bar teal" style="height: 34.4%;"><span class="value">34.4%</span></div>
+                        <div class="label">自己啓発実施 (労働者個人)</div>
+                    </div>
+                </div>
+            </div>
+            <p class="source">出典: 厚生労働省の調査、Z世代の就職意識調査</p>
+        </section>
+
+        <section id="q5">
+            <h2>Q5: 教育制度の充実が社員に与える効果として、最も大きいと思うものは？</h2>
+            <div class="answer">
+                <p>教育制度の充実は社員に多岐にわたる好影響をもたらします。特に大きいとされる効果は以下の通りです。</p>
+                <ul class="styled-list">
+                    <li>モチベーション・エンゲージメントの向上 (特に資産形成・金融教育でエンゲージメント向上報告あり)</li>
+                    <li>定着率向上（離職防止） (若手社員の定着率向上に期待)</li>
+                    <li>スキルアップ・業務遂行能力の強化 (生産性向上に直結)</li>
+                    <li>経済的な安定・安心感の向上 (金融教育による家計管理能力向上など)</li>
+                </ul>
+            </div>
+            <p class="source">出典: エン・ジャパンの調査、人事担当者向け調査</p>
+        </section>
+
+        <section id="q6">
+            <h2>Q6: 「金融教育プログラム」を従業員教育に導入することについて、必要だと思いますか？</h2>
+            <div class="answer">
+                <p>金融教育の必要性は高く認識されていますが、実際の導入は進んでいない状況が見られます。</p>
+                <ul>
+                    <li>中小企業経営者の約80%が「社員の金融教育は必要だ」と回答</li>
+                    <li>人事担当者の約9割が「社員の資産形成支援や金融教育の拡充は企業経営に有益」と回答</li>
+                    <li>実際に金融教育を実施している企業は約3割程度にとどまる</li>
+                </ul>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">金融教育の必要性認識と実施状況</div>
+                 <div class="dual-bar-chart-vertical">
+                    <div class="bar-pair-group">
+                        <div class="bar-pair">
+                            <div class="bar blue" style="height: 80%;"><span class="value">約80%</span></div>
+                        </div>
+                        <div class="group-label">経営者の必要性認識</div>
+                    </div>
+                    <div class="bar-pair-group">
+                        <div class="bar-pair">
+                             <div class="bar purple" style="height: 90%;"><span class="value">約90%</span></div>
+                        </div>
+                        <div class="group-label">人事担当者の有益性認識</div>
+                    </div>
+                    <div class="bar-pair-group">
+                        <div class="bar-pair">
+                            <div class="bar orange" style="height: 30%;"><span class="value">約30%</span></div>
+                        </div>
+                        <div class="group-label">実施企業割合</div>
+                    </div>
+                </div>
+            </div>
+            <p class="source">出典: 中小企業経営者向け調査、人事担当者向け調査</p>
+        </section>
+
+        <section id="q7">
+            <h2>Q7: 金融教育を導入する際に、障壁になりそうな要因は何ですか？</h2>
+            <div class="answer">
+                <p>金融教育導入における主な障壁は以下の通りです。</p>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">金融教育導入の障壁要因</div>
+                <div class="bar-chart-horizontal">
+                    <div class="bar-item">
+                        <div class="label">社員のニーズにバラつき:</div>
+                        <div class="bar-wrapper">
+                            <div class="bar red" style="width: 39.5%;">39.5%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="label">教育を行う人材がいない:</div>
+                        <div class="bar-wrapper">
+                            <div class="bar orange" style="width: 38.5%;">38.5%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="label">教育を行う時間が割けない:</div>
+                        <div class="bar-wrapper">
+                            <div class="bar blue" style="width: 34.2%;">34.2%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="label">何を教えればよいか分からない:</div>
+                        <div class="bar-wrapper">
+                            <div class="bar purple" style="width: 16.9%;">16.9%</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <div class="label">費用が捻出できない:</div>
+                        <div class="bar-wrapper">
+                            <div class="bar teal" style="width: 15.2%;">15.2%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="source">出典: 金融教育導入に関する企業調査</p>
+        </section>
+
+        <section id="q8">
+            <h2>Q8: 金融教育を導入する場合、どのような形式が適していると思いますか？</h2>
+            <div class="answer">
+                <p>効果的な金融教育の形式としては、以下のようなものが考えられます。</p>
+                <ul class="styled-list icon-list">
+                    <li>外部専門家によるセミナー・講習会</li>
+                    <li>オンラインセミナー・オンデマンド動画/eラーニング</li>
+                    <li>ライフステージ・年齢層に合わせたテーラーメイドのコンテンツ</li>
+                    <li>個別相談/少人数制ワークショップ</li>
+                    <li>既存制度への組み込み（例: 企業型DC加入者向け投資教育）</li>
+                </ul>
+            </div>
+            <p class="source">出典: 金融経済教育推進機構（J-FLEC）の資料、金融広報中央委員会（知るぽると）の事例、企業実施事例</p>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="container" style="text-align:center; padding: 20px 0; background-color: #333; color: #fff; margin-top: 20px; width:100%; box-shadow: none;">
+            <p>© 2024 従業員教育調査レポート (情報提供に基づく作成)</p>
+        </div>
+    </footer>
+</body>
+</html>
